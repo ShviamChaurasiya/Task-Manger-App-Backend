@@ -1,39 +1,26 @@
-// src/app.js
-const { Sequelize } = require('sequelize');
-require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const userRoutes = require('./routes/user.routes');
+const authRoutes = require('./routes/auth.routes');
+
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const taskRoutes = require('./routes/task.routes');
+app.use('/api/tasks', taskRoutes);
 
-// Middleware to parse JSON requests
+app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
-// A simple test route
+app.use('/api/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use(express.json()); // Make sure this is present before routes
+app.use("/api/users", userRoutes);
+
+
 app.get('/', (req, res) => {
-  res.send('Task Manager API is running!');
+  res.send('Server is running');
 });
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server started on http://localhost:${PORT}`);
-});
-
-// Initialize Sequelize using your config or connection string (from .env)
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: 'postgres',
-  protocol: 'postgres',
-  logging: false,
-});
-
-// Test DB connection
-async function testDB() {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-}
-testDB();
 
 module.exports = app;

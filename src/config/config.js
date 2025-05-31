@@ -1,5 +1,4 @@
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
 
 module.exports = {
   development: {
@@ -8,19 +7,19 @@ module.exports = {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false, // Important for Neon
-      },
-    },
-  },
+        rejectUnauthorized: false,}
+  }
+},
+
   test: {
     use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false
-      }
-    }
+        rejectUnauthorized: false,
+      },
+    },
   },
   production: {
     use_env_variable: 'DATABASE_URL',
@@ -28,8 +27,8 @@ module.exports = {
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false
-      }
-    }
-  }
+        rejectUnauthorized: false,
+      },
+    },
+  },
 };
